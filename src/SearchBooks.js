@@ -67,6 +67,14 @@ class SearchBooks extends Component {
             />
           </div>
         </div>
+
+        {books.length > 0 && (
+          <div className='showing-books'>
+            <span>Now showing {books.length} books </span>
+            <button onClick={this.clearQuery}>Clear</button>
+          </div>
+        )}
+
         <div className="search-books-results">
           <ol className="books-grid">
             { books.length > 0 && books.map((book) => (
