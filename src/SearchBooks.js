@@ -17,12 +17,19 @@ class SearchBooks extends Component {
     if (query !== '') {
       
       BooksAPI.search(query).then((books) => {
-        books.length > 0 && this.setState({
-          books: books.map(book => ({
-            // Update info if the book is already on a shelf:
-              ...book, shelf: this.getBookShelfNameIfOnAShelf(book)
-            }))
-        });
+        if (books.error) {
+          console.error(books.error);
+          this.setState({
+            books: []
+          });
+        } else {
+          books.length > 0 && this.setState({
+            books: books.map(book => ({
+              // Update info if the book is already on a shelf:
+                ...book, shelf: this.getBookShelfNameIfOnAShelf(book)
+              }))
+          });
+        }
       });
     } else {
       this.setState({
