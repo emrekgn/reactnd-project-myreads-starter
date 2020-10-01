@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BookShelfChanger from './BookShelfChanger';
 
 const Book = props => {
-  const { book } = props
+  const { book, onBookShelfChange } = props
 
   return (
     <div className="book">
@@ -11,7 +11,7 @@ const Book = props => {
           <div className="book-cover" 
               style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
           </div>
-          <BookShelfChanger />
+          <BookShelfChanger bookId={book.id} currentBookShelf={book.shelf} onBookShelfChange={onBookShelfChange} />
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors.join(", ")}</div>
@@ -21,6 +21,7 @@ const Book = props => {
 
 Book.propTypes = {
   book: PropTypes.object.isRequired,
+  onBookShelfChange: PropTypes.func.isRequired,
 };
 
 export default Book;
