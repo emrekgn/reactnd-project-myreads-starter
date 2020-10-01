@@ -15,14 +15,26 @@ class SearchBooks extends Component {
       query: query.trim()
     }))
     if (query !== '') {
-      BooksAPI.search(query).then((books) => this.setState({
-        books
-      }));
+      
+      BooksAPI.search(query).then((books) => {
+        books.length > 0 && this.setState({
+          books: books.map(book => ({
+            // Update info if the book is already on a shelf:
+              ...book, shelf: this.getBookShelfNameIfOnAShelf(book)
+            }))
+        });
+      });
     } else {
       this.setState({
         books: []
       });
     }
+  }
+
+  getBookShelfNameIfOnAShelf = (book) => {
+    const { booksOnAShelf } = this.props
+    let bookFound = booksOnAShelf.find(b => b.id === book.id)
+    return bookFound ? bookFound.shelf : "none"
   }
 
   clearQuery = () => {
@@ -70,6 +82,7 @@ class SearchBooks extends Component {
 }
 
 SearchBooks.propTypes = {
+  booksOnAShelf: PropTypes.array.isRequired,
   onBookShelfChange: PropTypes.func.isRequired,
 };
 
