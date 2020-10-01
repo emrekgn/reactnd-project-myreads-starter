@@ -11,7 +11,7 @@ const Book = props => {
           <div className="book-cover" 
               style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
           </div>
-          <BookShelfChanger bookId={book.id} currentBookShelf={book.shelf ? book.shelf : "none"} onBookShelfChange={onBookShelfChange} />
+          <BookShelfChanger book={book} currentBookShelf={book.shelf ? book.shelf : "none"} onBookShelfChange={onBookShelfChange} />
         </div>
         <div className="book-title">{book.title}</div>
         {book.authors && <div className="book-authors">{book.authors.join(", ")}</div>}

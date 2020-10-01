@@ -16,15 +16,34 @@ class BooksApp extends React.Component {
     }));
   }
 
-  onBookShelfChange = (bookId, shelf) => {
-    if (shelf === "none") {
-      return;
-    }
-    BooksAPI.update(bookId, shelf).then(() => this.setState(currentState => ({
-      books: currentState.books.map((book) => (
-        book.id === bookId ?  {...book, shelf: shelf} : book
-      ))
-    })))
+  onBookShelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+
+      // Try to update existing book
+      let found = false
+      this.setState(currentState => {
+        currentState.books.forEach(b => {
+          if (b.id === book.id) {
+            found = true
+            b.shelf = shelf
+          }
+          return !found
+        })
+
+        return {
+          books: currentState.books
+        }
+      })
+
+      // This is a new book that we need to fetch!
+      if (!found) {
+        BooksAPI.get(book.id).then((b) => {
+          this.setState(currentState => ({
+            books: currentState.books.concat(b)
+          }))
+        })
+      }
+    })
   };
 
   render() {

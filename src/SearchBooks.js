@@ -25,9 +25,19 @@ class SearchBooks extends Component {
     this.updateQuery('')
   }
 
+  handleBookShelfChange = (book, shelf) => {
+    // Update shelf attribute of the specified book for search page
+    this.setState(currentState => ({
+      books: currentState.books.map(b => (
+        b.id === book.id ?  {...b, shelf: shelf} : b
+      ))
+    }))
+    // Trigger onBookShelfChange() to update main page
+    this.props.onBookShelfChange(book, shelf)
+  }
+
   render() {
     const { query, books } = this.state
-    const { onBookShelfChange } = this.props
 
     return (
       <div className="search-books">
@@ -45,7 +55,7 @@ class SearchBooks extends Component {
           <ol className="books-grid">
             { books.length > 0 && books.map((book) => (
               <li key={book.id}>
-                  <Book book={book} onBookShelfChange={onBookShelfChange} />
+                  <Book book={book} onBookShelfChange={this.handleBookShelfChange} />
               </li>
             ))}
           </ol>
