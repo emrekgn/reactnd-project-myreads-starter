@@ -12,11 +12,11 @@ class SearchBooks extends Component {
 
   updateQuery = (query) => {
     this.setState(() => ({
-      query: query.trim()
+      query: query
     }))
-    if (query !== '') {
+    if (query.trim() !== '') {
       
-      BooksAPI.search(query).then((books) => {
+      BooksAPI.search(query.trim()).then((books) => {
         if (books.error) {
           console.error(books.error);
           this.setState({
