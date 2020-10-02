@@ -210,10 +210,11 @@ button:active {
 }
 
 .showing-books {
-  position: fixed;
-  width: 100%;
+  position: relative;
+  width: 40%;
   top: 15px;
   margin-right: 10px;
+  margin-left: auto;
   z-index: 5;
   font-size: 1.25em;
   text-align: right;
